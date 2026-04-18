@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartStore — Tu Tienda Digital</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #16161f;
+    --card: #1a1a26;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --accent: #7c3aed;
+    --accent2: #a855f7;
+    --accent3: #c084fc;
+    --text: #f0f0f5;
+    --text2: #a0a0b5;
+    --text3: #6b6b85;
+    --success: #10b981;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.4);
+    --glow: 0 0 40px rgba(124,58,237,0.15);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+  .nav-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 68px;
+  }
+  .logo {
+    font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #a855f7, #7c3aed, #5b21b6);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    text-decoration: none;
+  }
+  .logo span { color: var(--text); -webkit-text-fill-color: var(--text); }
+  .nav-links { display: flex; gap: 8px; list-style: none; }
+  .nav-links a {
+    color: var(--text2); text-decoration: none; font-size: 14px; font-weight: 500;
+    padding: 8px 14px; border-radius: 8px; transition: all 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.06); }
+  .nav-cta {
+    background: var(--accent); color: #fff; text-decoration: none;
+    padding: 9px 20px; border-radius: 10px; font-size: 14px; font-weight: 600;
+    transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+  }
+  .nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s; }
+
+  /* HERO */
+  .hero {
+    max-width: 1400px; margin: 0 auto;
+    padding: 80px 2rem 60px;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.3);
+    color: var(--accent3); font-size: 13px; font-weight: 600;
+    padding: 6px 14px; border-radius: 999px; margin-bottom: 24px;
+  }
+  .hero-badge::before { content: ''; width: 7px; height: 7px; background: var(--accent2); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+  .hero h1 { font-size: clamp(36px, 5vw, 64px); font-weight: 800; letter-spacing: -2px; line-height: 1.1; margin-bottom: 20px; }
+  .hero h1 em { font-style: normal; background: linear-gradient(135deg, #a855f7, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero p { font-size: 18px; color: var(--text2); max-width: 600px; margin: 0 auto 40px; line-height: 1.7; }
+  .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent); color: #fff; border: none; padding: 14px 28px;
+    border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(124,58,237,0.4); }
+  .btn-secondary {
+    background: transparent; color: var(--text); border: 1px solid var(--border2);
+    padding: 14px 28px; border-radius: 12px; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.05); border-color: var(--accent); }
+
+  /* STATS */
+  .stats { max-width: 1400px; margin: 0 auto; padding: 0 2rem 60px; }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .stat-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 24px; text-align: center;
+    transition: all 0.3s;
+  }
+  .stat-card:hover { border-color: rgba(124,58,237,0.4); transform: translateY(-2px); }
+  .stat-num { font-size: 32px; font-weight: 800; color: var(--accent3); margin-bottom: 4px; }
+  .stat-label { font-size: 13px; color: var(--text3); font-weight: 500; }
+
+  /* FILTER TABS */
+  .catalog { max-width: 1400px; margin: 0 auto; padding: 0 2rem 80px; }
+  .catalog-header { margin-bottom: 32px; }
+  .catalog-header h2 { font-size: 32px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
+  .catalog-header p { color: var(--text2); font-size: 15px; }
+  .filter-tabs {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px;
+    border-bottom: 1px solid var(--border); padding-bottom: 0;
+  }
+  .filter-tab {
+    background: transparent; border: none; color: var(--text3);
+    padding: 10px 18px; border-radius: 8px 8px 0 0; font-size: 13px;
+    font-weight: 600; cursor: pointer; transition: all 0.2s;
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+    font-family: 'Inter', sans-serif;
+  }
+  .filter-tab:hover { color: var(--text); }
+  .filter-tab.active { color: var(--accent3); border-bottom-color: var(--accent); }
+
+  /* CATEGORY SECTIONS */
+  .category-section { margin-bottom: 56px; }
+  .category-title {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 20px; font-weight: 700; margin-bottom: 24px;
+    padding-bottom: 12px; border-bottom: 1px solid var(--border);
+  }
+  .category-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; background: rgba(124,58,237,0.15);
+  }
+  .category-count { font-size: 12px; color: var(--text3); font-weight: 500; background: var(--bg3); padding: 3px 10px; border-radius: 999px; margin-left: auto; }
+
+  /* PRODUCT GRID */
+  .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+  .product-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; transition: all 0.3s; cursor: pointer;
+    display: flex; flex-direction: column;
+  }
+  .product-card:hover { border-color: rgba(124,58,237,0.5); transform: translateY(-4px); box-shadow: var(--shadow), var(--glow); }
+  .product-img-wrap {
+    position: relative; padding-top: 62%;
+    background: linear-gradient(135deg, #1e1e2e, #2a1a3e);
+    overflow: hidden;
+  }
+  .product-img-wrap img {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; transition: transform 0.4s;
+  }
+  .product-card:hover .product-img-wrap img { transform: scale(1.05); }
+  .product-badge {
+    position: absolute; top: 10px; left: 10px;
+    background: var(--accent); color: #fff;
+    font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .product-icon-fallback {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 52px;
+  }
+  .product-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
+  .product-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; line-height: 1.4; }
+  .product-desc { font-size: 12px; color: var(--text3); flex: 1; margin-bottom: 14px; line-height: 1.5; }
+  .product-footer { display: flex; align-items: center; justify-content: space-between; }
+  .product-price { font-size: 16px; font-weight: 800; color: var(--accent3); }
+  .product-price small { font-size: 11px; font-weight: 500; color: var(--text3); }
+  .btn-details {
+    background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.3);
+    color: var(--accent3); font-size: 12px; font-weight: 600;
+    padding: 7px 14px; border-radius: 8px; cursor: pointer;
+    transition: all 0.2s; font-family: 'Inter', sans-serif;
+  }
+  .btn-details:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+  .modal {
+    background: var(--bg3); border: 1px solid var(--border2);
+    border-radius: 20px; max-width: 520px; width: 100%;
+    max-height: 90vh; overflow-y: auto;
+    animation: slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    position: relative;
+  }
+  @keyframes slideUp { from{transform:translateY(30px) scale(0.96);opacity:0} to{transform:translateY(0) scale(1);opacity:1} }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,255,255,0.08); border: 1px solid var(--border2);
+    color: var(--text2); font-size: 20px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; z-index: 10; font-family: 'Inter', sans-serif;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.15); color: var(--text); }
+  .modal-img-wrap {
+    width: 100%; padding-top: 50%;
+    position: relative; border-radius: 20px 20px 0 0; overflow: hidden;
+    background: linear-gradient(135deg, #1e1e2e, #2a1a3e);
+  }
+  .modal-img-wrap img { position: absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; }
+  .modal-icon-fallback {
+    position: absolute; top:0; left:0; width:100%; height:100%;
+    display: flex; align-items: center; justify-content: center; font-size: 72px;
+  }
+  .modal-body { padding: 28px; }
+  .modal-cat { font-size: 11px; font-weight: 700; color: var(--accent3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .modal-name { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px; }
+  .modal-desc { font-size: 14px; color: var(--text2); line-height: 1.7; margin-bottom: 24px; }
+  .modal-features { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; }
+  .modal-feature {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; color: var(--text2);
+  }
+  .modal-feature::before { content: ''; width: 6px; height: 6px; background: var(--success); border-radius: 50%; flex-shrink: 0; }
+  .modal-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .modal-price-wrap { display: flex; flex-direction: column; }
+  .modal-price-label { font-size: 11px; color: var(--text3); font-weight: 500; margin-bottom: 2px; }
+  .modal-price { font-size: 28px; font-weight: 800; color: var(--accent3); letter-spacing: -1px; }
+  .btn-whatsapp {
+    background: #25d366; color: #fff; border: none;
+    padding: 14px 24px; border-radius: 12px; font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+    text-decoration: none; font-family: 'Inter', sans-serif;
+  }
+  .btn-whatsapp:hover { background: #20ba58; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,211,102,0.35); }
+
+  /* CONTACT SECTION */
+  .contact { background: var(--bg2); border-top: 1px solid var(--border); }
+  .contact-inner {
+    max-width: 1400px; margin: 0 auto; padding: 80px 2rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+  }
+  .contact h2 { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
+  .contact p { color: var(--text2); font-size: 16px; line-height: 1.7; margin-bottom: 32px; }
+  .contact-cards { display: flex; flex-direction: column; gap: 16px; }
+  .contact-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px 24px;
+    display: flex; align-items: center; gap: 16px; transition: all 0.3s;
+    text-decoration: none;
+  }
+  .contact-card:hover { border-color: rgba(124,58,237,0.4); transform: translateX(4px); }
+  .contact-card-icon { font-size: 28px; width: 52px; height: 52px; background: rgba(124,58,237,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .contact-card-info strong { display: block; font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .contact-card-info span { font-size: 13px; color: var(--text3); }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg); border-top: 1px solid var(--border);
+    padding: 24px 2rem; text-align: center;
+  }
+  footer p { color: var(--text3); font-size: 13px; }
+  footer a { color: var(--accent3); text-decoration: none; }
+
+  /* HIDDEN */
+  .category-section.hidden { display: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .contact-inner { grid-template-columns: 1fr; gap: 40px; }
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+  }
+  @media (max-width: 560px) {
+    .hero h1 { font-size: 32px; }
+    .hero p { font-size: 15px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+    .product-body { padding: 12px; }
+    .modal-body { padding: 20px; }
+    .modal-footer { flex-direction: column; align-items: stretch; }
+    .btn-whatsapp { justify-content: center; }
+  }
+  .scroll-to-top {
+    position: fixed; bottom: 24px; right: 24px; z-index: 500;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--accent); border: none; color: #fff;
+    font-size: 20px; cursor: pointer; transition: all 0.3s;
+    display: none; align-items: center; justify-content: center;
+    box-shadow: 0 4px 16px rgba(124,58,237,0.4);
+  }
+  .scroll-to-top.visible { display: flex; }
+  .scroll-to-top:hover { background: var(--accent2); transform: translateY(-3px); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">Smart<span>Store</span></a>
+    <ul class="nav-links">
+      <li><a href="#">Inicio</a></li>
+      <li><a href="#catalog">Productos</a></li>
+      <li><a href="#catalog">Categorías</a></li>
+      <li><a href="#contact">Servicios</a></li>
+      <li><a href="#contact">Contacto</a></li>
+    </ul>
+    <a href="https://wa.me/573215045684" target="_blank" class="nav-cta">
+      💬 WhatsApp
+    </a>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-badge">✦ Servicios digitales premium</div>
+  <h1>Tu tienda digital<br><em>todo en un lugar</em></h1>
+  <p>Streaming, software, IA y tecnología a los mejores precios. Entrega inmediata y soporte personalizado.</p>
+  <div class="hero-actions">
+    <a href="#catalog" class="btn-primary">🛍️ Ver catálogo</a>
+    <a href="https://wa.me/573215045684" target="_blank" class="btn-secondary">💬 Hablar con nosotros</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-num">50+</div><div class="stat-label">Productos disponibles</div></div>
+    <div class="stat-card"><div class="stat-num">8</div><div class="stat-label">Categorías</div></div>
+    <div class="stat-card"><div class="stat-num">24/7</div><div class="stat-label">Soporte activo</div></div>
+    <div class="stat-card"><div class="stat-num">100%</div><div class="stat-label">Entrega inmediata</div></div>
+  </div>
+</section>
+
+<!-- CATALOG -->
+<section class="catalog" id="catalog">
+  <div class="catalog-header">
+    <h2>Catálogo de productos</h2>
+    <p>Selecciona la categoría para filtrar los productos disponibles</p>
+    <div class="filter-tabs">
+      <button class="filter-tab active" onclick="filterCat('all', this)">Todos</button>
+      <button class="filter-tab" onclick="filterCat('netflix', this)">🎬 Netflix</button>
+      <button class="filter-tab" onclick="filterCat('hbo', this)">📺 HBO Max</button>
+      <button class="filter-tab" onclick="filterCat('amazon', this)">📦 Amazon</button>
+      <button class="filter-tab" onclick="filterCat('spotify', this)">🎧 Spotify</button>
+      <button class="filter-tab" onclick="filterCat('disney', this)">🏰 Disney+</button>
+      <button class="filter-tab" onclick="filterCat('youtube', this)">▶️ YouTube</button>
+      <button class="filter-tab" onclick="filterCat('paramount', this)">📡 Paramount</button>
+      <button class="filter-tab" onclick="filterCat('ia', this)">🤖 IA & Software</button>
+      <button class="filter-tab" onclick="filterCat('crunchyroll', this)">🎌 Crunchyroll</button>
+      <button class="filter-tab" onclick="filterCat('tech', this)">🎧 Tecnología</button>
+      <button class="filter-tab" onclick="filterCat('web', this)">🌐 Servicios Web</button>
+    </div>
+  </div>
+
+  <!-- NETFLIX -->
+  <div class="category-section" data-cat="netflix">
+    <div class="category-title">
+      <div class="category-icon">🎬</div> Netflix
+      <span class="category-count">5 productos</span>
+    </div>
+    <div class="products-grid">
+      <div class="product-card" onclick="openModal('Netflix pantalla 33 días','14.000 COP','Netflix','Acceso a Netflix en pantalla individual por 33 días. Disfruta de series, películas y documentales en tu dispositivo.','https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1200px-Netflix_2015_logo.svg.png','🎬',['33 días de acceso','Pantalla individual','Acceso inmediato','Compatible con Smart TV, PC, móvil'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1200px-Netflix_2015_logo.svg.png" alt="Netflix" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🎬</div>
+          <div class="product-badge">Streaming</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Netflix pantalla 33 días</div>
+          <div class="product-desc">Acceso pantalla individual por 33 días</div>
+          <div class="product-footer">
+            <div class="product-price">14.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Netflix pantalla 27 días','12.000 COP','Netflix','Acceso a Netflix en pantalla individual por 27 días. Disfruta de todo el catálogo Netflix en tu dispositivo favorito.','https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1200px-Netflix_2015_logo.svg.png','🎬',['27 días de acceso','Pantalla individual','Acceso inmediato','Todo el catálogo Netflix'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1200px-Netflix_2015_logo.svg.png" alt="Netflix" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🎬</div>
+          <div class="product-badge">Oferta</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Netflix pantalla 27 días</div>
+          <div class="product-desc">Acceso pantalla individual por 27 días</div>
+          <div class="product-footer">
+            <div class="product-price">12.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Netflix internacional (genérica)','47.000 COP','Netflix','Cuenta Netflix internacional genérica completa. Acceso total a todos los perfiles y la pantalla completa.','https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1200px-Netflix_2015_logo.svg.png','🎬',['Cuenta completa','Acceso internacional','Múltiples perfiles','Ultra HD disponible'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1200px-Netflix_2015_logo.svg.png" alt="Netflix" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🎬</div>
+          <div class="product-badge">Premium</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Netflix internacional (genérica)</div>
+          <div class="product-desc">Cuenta completa internacional genérica</div>
+          <div class="product-footer">
+            <div class="product-price">47.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Netflix internacional pantalla 27–32 días','12.000 COP','Netflix','Acceso a Netflix internacional en pantalla individual por 27 a 32 días. Catálogo internacional disponible.','https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1200px-Netflix_2015_logo.svg.png','🎬',['27–32 días de acceso','Pantalla individual','Catálogo internacional','Entrega inmediata'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1200px-Netflix_2015_logo.svg.png" alt="Netflix" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🎬</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Netflix int'l pantalla 27–32 días</div>
+          <div class="product-desc">Pantalla genérico internacional 27–32 días</div>
+          <div class="product-footer">
+            <div class="product-price">12.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Netflix pantalla (genérica) 27–32 días','10.000 COP','Netflix','Acceso a Netflix en pantalla genérica individual por 27 a 32 días. La opción más económica de Netflix.','https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1200px-Netflix_2015_logo.svg.png','🎬',['27–32 días de acceso','Pantalla genérica','Opción más económica','Acceso inmediato'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1200px-Netflix_2015_logo.svg.png" alt="Netflix" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🎬</div>
+          <div class="product-badge">Económico</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Netflix pantalla genérica 27–32 días</div>
+          <div class="product-desc">La opción más económica de Netflix</div>
+          <div class="product-footer">
+            <div class="product-price">10.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HBO MAX -->
+  <div class="category-section" data-cat="hbo">
+    <div class="category-title">
+      <div class="category-icon">📺</div> HBO Max
+      <span class="category-count">5 productos</span>
+    </div>
+    <div class="products-grid">
+      <div class="product-card" onclick="openModal('Max platino original completa','23.000 COP','HBO Max','Cuenta Max platino original completa. Acceso a toda la plataforma con plan platino y contenido exclusivo HBO.','https://upload.wikimedia.org/wikipedia/commons/1/10/HBO_Max_Logo.svg','📺',['Cuenta completa','Plan platino','Contenido HBO exclusivo','Acceso inmediato'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/HBO_Max_Logo.svg" alt="HBO Max" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">📺</div>
+          <div class="product-badge">Premium</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Max platino original completa</div>
+          <div class="product-desc">Cuenta platino completa original</div>
+          <div class="product-footer">
+            <div class="product-price">23.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Max platino original pantalla','8.000 COP','HBO Max','Acceso a Max en pantalla individual plan platino original. Perfecto para uso personal.','https://upload.wikimedia.org/wikipedia/commons/1/10/HBO_Max_Logo.svg','📺',['Pantalla individual','Plan platino','Cuenta original','Precio accesible'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/HBO_Max_Logo.svg" alt="HBO Max" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">📺</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Max platino original pantalla</div>
+          <div class="product-desc">Pantalla individual plan platino original</div>
+          <div class="product-footer">
+            <div class="product-price">8.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Max platino completa (genérica)','16.000 COP','HBO Max','Cuenta Max platino completa genérica. Acceso total a la plataforma con todos los beneficios del plan platino.','https://upload.wikimedia.org/wikipedia/commons/1/10/HBO_Max_Logo.svg','📺',['Cuenta completa','Plan platino genérico','Todo el catálogo Max','Acceso inmediato'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/HBO_Max_Logo.svg" alt="HBO Max" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">📺</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Max platino completa (genérica)</div>
+          <div class="product-desc">Cuenta platino completa genérica</div>
+          <div class="product-footer">
+            <div class="product-price">16.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Max platino genérico pantalla','6.000 COP','HBO Max','Acceso a Max en pantalla individual con plan platino genérico. La opción más económica para disfrutar HBO Max.','https://upload.wikimedia.org/wikipedia/commons/1/10/HBO_Max_Logo.svg','📺',['Pantalla individual','Plan platino genérico','Opción económica','Entrega rápida'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/HBO_Max_Logo.svg" alt="HBO Max" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">📺</div>
+          <div class="product-badge">Económico</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Max platino genérico pantalla</div>
+          <div class="product-desc">Pantalla genérica plan platino</div>
+          <div class="product-footer">
+            <div class="product-price">6.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Max completa genérica','12.000 COP','HBO Max','Cuenta Max completa genérica. Acceso total a la plataforma con todos sus contenidos y perfiles disponibles.','https://upload.wikimedia.org/wikipedia/commons/1/10/HBO_Max_Logo.svg','📺',['Cuenta completa','Genérica accesible','Todo el catálogo','Acceso inmediato'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/HBO_Max_Logo.svg" alt="HBO Max" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">📺</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Max completa genérica</div>
+          <div class="product-desc">Cuenta completa genérica accesible</div>
+          <div class="product-footer">
+            <div class="product-price">12.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AMAZON PRIME -->
+  <div class="category-section" data-cat="amazon">
+    <div class="category-title">
+      <div class="category-icon">📦</div> Amazon Prime
+      <span class="category-count">4 productos</span>
+    </div>
+    <div class="products-grid">
+      <div class="product-card" onclick="openModal('Amazon Prime original completa','17.500 COP','Amazon Prime','Cuenta Amazon Prime original completa. Acceso a Prime Video, Prime Music y todos los beneficios Amazon Prime.','https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Prime_Video_logo.svg/1200px-Amazon_Prime_Video_logo.svg.png','📦',['Cuenta original completa','Prime Video incluido','Prime Music incluido','Todos los beneficios Prime'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Prime_Video_logo.svg/1200px-Amazon_Prime_Video_logo.svg.png" alt="Amazon Prime" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">📦</div>
+          <div class="product-badge">Original</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Amazon Prime original completa</div>
+          <div class="product-desc">Cuenta original completa con todos los beneficios</div>
+          <div class="product-footer">
+            <div class="product-price">17.500 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Amazon Prime original pantalla','8.000 COP','Amazon Prime','Acceso a Amazon Prime Video en pantalla individual con cuenta original. Perfecto para uso personal.','https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Prime_Video_logo.svg/1200px-Amazon_Prime_Video_logo.svg.png','📦',['Pantalla individual','Cuenta original','Prime Video acceso','Entrega inmediata'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Prime_Video_logo.svg/1200px-Amazon_Prime_Video_logo.svg.png" alt="Amazon Prime" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">📦</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Amazon Prime original pantalla</div>
+          <div class="product-desc">Pantalla individual cuenta original</div>
+          <div class="product-footer">
+            <div class="product-price">8.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Amazon Prime completa (genérica)','13.000 COP','Amazon Prime','Cuenta Amazon Prime completa genérica. Acceso total a Prime Video y contenido exclusivo Amazon.','https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Prime_Video_logo.svg/1200px-Amazon_Prime_Video_logo.svg.png','📦',['Cuenta completa genérica','Prime Video acceso','Contenido exclusivo','Precio económico'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Prime_Video_logo.svg/1200px-Amazon_Prime_Video_logo.svg.png" alt="Amazon Prime" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">📦</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Amazon Prime completa (genérica)</div>
+          <div class="product-desc">Cuenta completa genérica accesible</div>
+          <div class="product-footer">
+            <div class="product-price">13.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Amazon Prime pantalla genérica','4.000 COP','Amazon Prime','Acceso a Amazon Prime en pantalla individual genérica. La opción más económica para disfrutar Prime Video.','https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Prime_Video_logo.svg/1200px-Amazon_Prime_Video_logo.svg.png','📦',['Pantalla individual','Cuenta genérica','Opción más económica','Acceso inmediato'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Prime_Video_logo.svg/1200px-Amazon_Prime_Video_logo.svg.png" alt="Amazon Prime" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">📦</div>
+          <div class="product-badge">Económico</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Amazon Prime pantalla genérica</div>
+          <div class="product-desc">La opción más económica de Amazon Prime</div>
+          <div class="product-footer">
+            <div class="product-price">4.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPOTIFY -->
+  <div class="category-section" data-cat="spotify">
+    <div class="category-title">
+      <div class="category-icon">🎧</div> Spotify
+      <span class="category-count">3 productos</span>
+    </div>
+    <div class="products-grid">
+      <div class="product-card" onclick="openModal('Spotify 1 mes','10.000 COP','Spotify','Spotify Premium por 1 mes. Sin anuncios, descarga canciones y escucha offline en cualquier dispositivo.','https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/1024px-Spotify_logo_without_text.svg.png','🎧',['1 mes de Spotify Premium','Sin anuncios','Descarga para escuchar offline','Calidad de audio alta'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/1024px-Spotify_logo_without_text.svg.png" alt="Spotify" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🎧</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Spotify 1 mes</div>
+          <div class="product-desc">Premium sin anuncios por 1 mes</div>
+          <div class="product-footer">
+            <div class="product-price">10.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Spotify 2 meses','18.000 COP','Spotify','Spotify Premium por 2 meses. Disfruta de música sin límites por más tiempo con el mejor precio por mes.','https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/1024px-Spotify_logo_without_text.svg.png','🎧',['2 meses de Spotify Premium','Sin anuncios ni límites','Descarga canciones offline','Mejor precio por mes'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/1024px-Spotify_logo_without_text.svg.png" alt="Spotify" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🎧</div>
+          <div class="product-badge">Popular</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Spotify 2 meses</div>
+          <div class="product-desc">Premium sin límites por 2 meses</div>
+          <div class="product-footer">
+            <div class="product-price">18.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Spotify 3 meses','23.500 COP','Spotify','Spotify Premium por 3 meses. La mejor relación precio-duración para disfrutar música sin anuncios todo el trimestre.','https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/1024px-Spotify_logo_without_text.svg.png','🎧',['3 meses de Spotify Premium','Mayor ahorro por mes','Sin anuncios ni interrupciones','Descarga ilimitada'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/1024px-Spotify_logo_without_text.svg.png" alt="Spotify" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🎧</div>
+          <div class="product-badge">Mejor valor</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Spotify 3 meses</div>
+          <div class="product-desc">Mayor ahorro — 3 meses completos</div>
+          <div class="product-footer">
+            <div class="product-price">23.500 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISNEY+ -->
+  <div class="category-section" data-cat="disney">
+    <div class="category-title">
+      <div class="category-icon">🏰</div> Disney+
+      <span class="category-count">5 productos</span>
+    </div>
+    <div class="products-grid">
+      <div class="product-card" onclick="openModal('Disney premium completa (genérica)','33.000 COP','Disney+','Cuenta Disney+ premium completa genérica. Acceso a todo el universo Disney, Marvel, Star Wars y National Geographic.','https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/1200px-Disney%2B_logo.svg.png','🏰',['Cuenta completa premium','Marvel, Star Wars, NatGeo','Sin anuncios','Descargas disponibles'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/1200px-Disney%2B_logo.svg.png" alt="Disney+" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🏰</div>
+          <div class="product-badge">Premium</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Disney premium completa (genérica)</div>
+          <div class="product-desc">Cuenta premium completa — Marvel & Star Wars</div>
+          <div class="product-footer">
+            <div class="product-price">33.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Disney premium original pantalla','10.000 COP','Disney+','Acceso a Disney+ premium en pantalla individual cuenta original. Disfruta de todo el catálogo Disney premium.','https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/1200px-Disney%2B_logo.svg.png','🏰',['Pantalla individual','Plan premium original','Catálogo Disney completo','Entrega inmediata'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/1200px-Disney%2B_logo.svg.png" alt="Disney+" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🏰</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Disney premium original pantalla</div>
+          <div class="product-desc">Pantalla premium cuenta original</div>
+          <div class="product-footer">
+            <div class="product-price">10.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Disney premium pantalla genérica','7.500 COP','Disney+','Acceso a Disney+ premium en pantalla genérica individual. Opción económica para disfrutar el plan premium.','https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/1200px-Disney%2B_logo.svg.png','🏰',['Pantalla genérica','Plan premium','Opción económica','Acceso rápido'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/1200px-Disney%2B_logo.svg.png" alt="Disney+" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🏰</div>
+          <div class="product-badge">Económico</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Disney premium pantalla genérica</div>
+          <div class="product-desc">Pantalla premium genérica económica</div>
+          <div class="product-footer">
+            <div class="product-price">7.500 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Disney estándar completa 30–45 días','15.000 COP','Disney+','Cuenta Disney+ estándar completa por 30 a 45 días. Acceso a todo el catálogo Disney en plan estándar.','https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/1200px-Disney%2B_logo.svg.png','🏰',['Cuenta completa estándar','30 a 45 días de acceso','Todo el catálogo Disney','Múltiples dispositivos'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/1200px-Disney%2B_logo.svg.png" alt="Disney+" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🏰</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Disney estándar completa 30–45 días</div>
+          <div class="product-desc">Cuenta estándar completa hasta 45 días</div>
+          <div class="product-footer">
+            <div class="product-price">15.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Disney estándar original pantalla 30–45 días','6.000 COP','Disney+','Acceso a Disney+ estándar en pantalla individual original por 30 a 45 días. La opción más accesible de Disney.','https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/1200px-Disney%2B_logo.svg.png','🏰',['Pantalla individual original','30 a 45 días','Plan estándar','Mejor precio'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/1200px-Disney%2B_logo.svg.png" alt="Disney+" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🏰</div>
+          <div class="product-badge">Mejor precio</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Disney estándar original pantalla 30–45 días</div>
+          <div class="product-desc">Pantalla original estándar hasta 45 días</div>
+          <div class="product-footer">
+            <div class="product-price">6.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- YOUTUBE -->
+  <div class="category-section" data-cat="youtube">
+    <div class="category-title">
+      <div class="category-icon">▶️</div> YouTube Premium
+      <span class="category-count">3 productos</span>
+    </div>
+    <div class="products-grid">
+      <div class="product-card" onclick="openModal('YouTube 1 mes (genérico, Android)','6.000 COP','YouTube','YouTube Premium por 1 mes versión genérica para Android. Sin anuncios y con reproducción en segundo plano.','https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/1024px-YouTube_full-color_icon_%282017%29.svg.png','▶️',['1 mes sin anuncios','Compatible con Android','Reproducción en segundo plano','Opción económica'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/1024px-YouTube_full-color_icon_%282017%29.svg.png" alt="YouTube" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">▶️</div>
+          <div class="product-badge">Android</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">YouTube 1 mes (genérico, Android)</div>
+          <div class="product-desc">Sin anuncios en Android por 1 mes</div>
+          <div class="product-footer">
+            <div class="product-price">6.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('YouTube Premium 1 mes','11.000 COP','YouTube','YouTube Premium por 1 mes. Sin anuncios, YouTube Music incluido y descarga de videos para ver offline.','https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/1024px-YouTube_full-color_icon_%282017%29.svg.png','▶️',['1 mes YouTube Premium','YouTube Music incluido','Sin anuncios en todos los videos','Descargas offline'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/1024px-YouTube_full-color_icon_%282017%29.svg.png" alt="YouTube" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">▶️</div>
+          <div class="product-badge">Premium</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">YouTube Premium 1 mes</div>
+          <div class="product-desc">Premium con YouTube Music incluido</div>
+          <div class="product-footer">
+            <div class="product-price">11.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('YouTube Premium x3 meses','26.000 COP','YouTube','YouTube Premium por 3 meses. La mejor opción de ahorro para disfrutar de YouTube sin límites por todo el trimestre.','https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/1024px-YouTube_full-color_icon_%282017%29.svg.png','▶️',['3 meses YouTube Premium','Mayor ahorro por mes','YouTube Music incluido','Sin anuncios ni límites'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/1024px-YouTube_full-color_icon_%282017%29.svg.png" alt="YouTube" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">▶️</div>
+          <div class="product-badge">Mejor valor</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">YouTube Premium x3 meses</div>
+          <div class="product-desc">3 meses — máximo ahorro</div>
+          <div class="product-footer">
+            <div class="product-price">26.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARAMOUNT -->
+  <div class="category-section" data-cat="paramount">
+    <div class="category-title">
+      <div class="category-icon">📡</div> Paramount+
+      <span class="category-count">2 productos</span>
+    </div>
+    <div class="products-grid">
+      <div class="product-card" onclick="openModal('Paramount completa genérica','10.000 COP','Paramount+','Cuenta Paramount+ completa genérica. Acceso a series exclusivas, películas y contenido deportivo Paramount.','https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Paramount_Network.svg/1200px-Paramount_Network.svg.png','📡',['Cuenta completa genérica','Series exclusivas Paramount','Contenido deportivo','Acceso inmediato'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Paramount_Network.svg/1200px-Paramount_Network.svg.png" alt="Paramount+" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">📡</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Paramount completa genérica</div>
+          <div class="product-desc">Cuenta completa con todo el contenido</div>
+          <div class="product-footer">
+            <div class="product-price">10.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Paramount pantalla','5.000 COP','Paramount+','Acceso a Paramount+ en pantalla individual. La opción más accesible para disfrutar el contenido Paramount.','https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Paramount_Network.svg/1200px-Paramount_Network.svg.png','📡',['Pantalla individual','Contenido Paramount','Precio accesible','Entrega rápida'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Paramount_Network.svg/1200px-Paramount_Network.svg.png" alt="Paramount+" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">📡</div>
+          <div class="product-badge">Económico</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Paramount pantalla</div>
+          <div class="product-desc">Pantalla individual precio accesible</div>
+          <div class="product-footer">
+            <div class="product-price">5.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IA & SOFTWARE -->
+  <div class="category-section" data-cat="ia">
+    <div class="category-title">
+      <div class="category-icon">🤖</div> IA & Software
+      <span class="category-count">6 productos</span>
+    </div>
+    <div class="products-grid">
+      <div class="product-card" onclick="openModal('ChatGPT a dominio','14.000 COP','IA & Software','Acceso a ChatGPT Plus vinculado a tu dominio. Usa el modelo GPT-4 con todas sus capacidades avanzadas.','https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/1024px-ChatGPT_logo.svg.png','🤖',['ChatGPT Plus','GPT-4 habilitado','Vinculado a tu dominio','Capacidades avanzadas de IA'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/1024px-ChatGPT_logo.svg.png" alt="ChatGPT" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🤖</div>
+          <div class="product-badge">IA</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">ChatGPT a dominio</div>
+          <div class="product-desc">ChatGPT Plus vinculado a tu dominio</div>
+          <div class="product-footer">
+            <div class="product-price">14.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('ChatGPT Plus','15.000 COP','IA & Software','ChatGPT Plus con acceso a GPT-4, DALL-E y funciones avanzadas. La herramienta de IA más poderosa del mercado.','https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/1024px-ChatGPT_logo.svg.png','🤖',['GPT-4 acceso completo','DALL-E imagen IA','Análisis de documentos','Plugins disponibles'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/1024px-ChatGPT_logo.svg.png" alt="ChatGPT" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🤖</div>
+          <div class="product-badge">Popular</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">ChatGPT Plus</div>
+          <div class="product-desc">GPT-4 + DALL-E + funciones avanzadas</div>
+          <div class="product-footer">
+            <div class="product-price">15.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Gemini Pro (5 dispositivos)','21.000 COP','IA & Software','Google Gemini Pro para hasta 5 dispositivos. La IA de Google con capacidades multimodales avanzadas.','https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Google_Gemini_logo.svg/1200px-Google_Gemini_logo.svg.png','🤖',['Hasta 5 dispositivos','Gemini Pro avanzado','Multimodal IA','Integración Google'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Google_Gemini_logo.svg/1200px-Google_Gemini_logo.svg.png" alt="Gemini" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🤖</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Gemini Pro (5 dispositivos)</div>
+          <div class="product-desc">IA de Google para hasta 5 dispositivos</div>
+          <div class="product-footer">
+            <div class="product-price">21.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('CapCut Pro completa','17.000 COP','IA & Software','CapCut Pro cuenta completa. Editor de video profesional con IA, plantillas premium y funciones avanzadas sin marca de agua.','https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/CapCut_logo.svg/1200px-CapCut_logo.svg.png','✂️',['Cuenta completa Pro','Sin marca de agua','Plantillas premium','IA de edición avanzada'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/CapCut_logo.svg/1200px-CapCut_logo.svg.png" alt="CapCut" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">✂️</div>
+          <div class="product-badge">Pro</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">CapCut Pro completa</div>
+          <div class="product-desc">Edición de video con IA sin marca de agua</div>
+          <div class="product-footer">
+            <div class="product-price">17.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('CapCut Pro 1 dispositivo','10.000 COP','IA & Software','CapCut Pro para 1 dispositivo. Edita videos como profesional con herramientas IA y plantillas premium.','https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/CapCut_logo.svg/1200px-CapCut_logo.svg.png','✂️',['1 dispositivo Pro','Herramientas IA','Plantillas premium','Sin marca de agua'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/CapCut_logo.svg/1200px-CapCut_logo.svg.png" alt="CapCut" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">✂️</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">CapCut Pro 1 dispositivo</div>
+          <div class="product-desc">CapCut Pro para un solo dispositivo</div>
+          <div class="product-footer">
+            <div class="product-price">10.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Canva 12 meses','28.000 COP','IA & Software','Canva Pro por 12 meses completos. Diseño profesional con millones de plantillas, fotos premium y herramientas IA.','https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Canva_Logo.svg/1200px-Canva_Logo.svg.png','🎨',['12 meses Canva Pro','Millones de plantillas','Fotos y videos premium','Herramientas de IA incluidas'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Canva_Logo.svg/1200px-Canva_Logo.svg.png" alt="Canva" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🎨</div>
+          <div class="product-badge">Mejor valor</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Canva 12 meses</div>
+          <div class="product-desc">Canva Pro todo el año — máximo ahorro</div>
+          <div class="product-footer">
+            <div class="product-price">28.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Canva 45 días','6.500 COP','IA & Software','Canva Pro por 45 días. Accede a todas las funciones premium de Canva para crear diseños profesionales impresionantes.','https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Canva_Logo.svg/1200px-Canva_Logo.svg.png','🎨',['45 días Canva Pro','Plantillas premium','Imágenes sin marca de agua','Opción económica'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Canva_Logo.svg/1200px-Canva_Logo.svg.png" alt="Canva" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🎨</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Canva 45 días</div>
+          <div class="product-desc">Canva Pro por 45 días económico</div>
+          <div class="product-footer">
+            <div class="product-price">6.500 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CRUNCHYROLL -->
+  <div class="category-section" data-cat="crunchyroll">
+    <div class="category-title">
+      <div class="category-icon">🎌</div> Crunchyroll
+      <span class="category-count">3 productos</span>
+    </div>
+    <div class="products-grid">
+      <div class="product-card" onclick="openModal('Crunchyroll original pantalla','8.000 COP','Crunchyroll','Acceso a Crunchyroll en pantalla individual cuenta original. El mejor catálogo de anime en un solo lugar.','https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Crunchyroll_logo.svg/1200px-Crunchyroll_logo.svg.png','🎌',['Pantalla individual original','Catálogo completo de anime','Subtítulos en español','Acceso inmediato'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Crunchyroll_logo.svg/1200px-Crunchyroll_logo.svg.png" alt="Crunchyroll" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🎌</div>
+          <div class="product-badge">Original</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Crunchyroll original pantalla</div>
+          <div class="product-desc">Pantalla original — catálogo anime completo</div>
+          <div class="product-footer">
+            <div class="product-price">8.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Crunchyroll completa (genérica)','12.000 COP','Crunchyroll','Cuenta Crunchyroll completa genérica. Acceso total al mayor catálogo de anime en alta calidad con subtítulos.','https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Crunchyroll_logo.svg/1200px-Crunchyroll_logo.svg.png','🎌',['Cuenta completa','Todo el catálogo anime','Alta calidad de video','Subtítulos en español'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Crunchyroll_logo.svg/1200px-Crunchyroll_logo.svg.png" alt="Crunchyroll" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🎌</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Crunchyroll completa (genérica)</div>
+          <div class="product-desc">Cuenta completa genérica — anime ilimitado</div>
+          <div class="product-footer">
+            <div class="product-price">12.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Crunchyroll pantalla','6.000 COP','Crunchyroll','Acceso a Crunchyroll en pantalla individual genérica. La opción más económica para los fanáticos del anime.','https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Crunchyroll_logo.svg/1200px-Crunchyroll_logo.svg.png','🎌',['Pantalla individual genérica','Anime en HD','Opción más económica','Entrega rápida'])">
+        <div class="product-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Crunchyroll_logo.svg/1200px-Crunchyroll_logo.svg.png" alt="Crunchyroll" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🎌</div>
+          <div class="product-badge">Económico</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Crunchyroll pantalla</div>
+          <div class="product-desc">Anime HD al mejor precio</div>
+          <div class="product-footer">
+            <div class="product-price">6.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AIRPODS / TECNOLOGÍA -->
+  <div class="category-section" data-cat="tech">
+    <div class="category-title">
+      <div class="category-icon">🎧</div> AirPods — Tecnología
+      <span class="category-count">4 productos</span>
+    </div>
+    <div class="products-grid">
+      <div class="product-card" onclick="openModal('AirPods Pro 2','45.000 COP','Tecnología','AirPods Pro 2da generación. Cancelación activa de ruido, audio espacial y chip H2 para una experiencia sonora excepcional.','https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQD83?wid=532&hei=582&fmt=png-alpha&.v=1660803972990','🎧',['Cancelación activa de ruido','Audio espacial personalizado','Chip H2 Apple','Resistencia al agua IPX4'])">
+        <div class="product-img-wrap">
+          <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQD83?wid=532&hei=582&fmt=png-alpha&.v=1660803972990" alt="AirPods Pro 2" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🎧</div>
+          <div class="product-badge">Nuevo</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">AirPods Pro 2</div>
+          <div class="product-desc">2da generación con cancelación de ruido</div>
+          <div class="product-footer">
+            <div class="product-price">45.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('AirPods 4ta generación','55.000 COP','Tecnología','AirPods 4ta generación. Diseño completamente renovado con cancelación activa de ruido y audio adaptativo de Apple.','https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQTQ3?wid=532&hei=582&fmt=png-alpha','🎧',['4ta generación AirPods','Cancelación de ruido activa','Diseño renovado','Chip H2'])">
+        <div class="product-img-wrap">
+          <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQTQ3?wid=532&hei=582&fmt=png-alpha" alt="AirPods 4" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🎧</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">AirPods 4ta generación</div>
+          <div class="product-desc">Diseño renovado con ANC activa</div>
+          <div class="product-footer">
+            <div class="product-price">55.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('AirPods Pro 3ra generación','80.000 COP','Tecnología','AirPods Pro 3ra generación. La última evolución de los AirPods Pro con el mejor sistema de audio y cancelación de ruido de Apple.','https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQD83?wid=532&hei=582&fmt=png-alpha','🎧',['3ra generación Pro','Cancelación de ruido mejorada','Mejor batería','Audio espacial avanzado'])">
+        <div class="product-img-wrap">
+          <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQD83?wid=532&hei=582&fmt=png-alpha" alt="AirPods Pro 3" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🎧</div>
+          <div class="product-badge">Top</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">AirPods Pro 3ra generación</div>
+          <div class="product-desc">La mejor experiencia sonora AirPods Pro</div>
+          <div class="product-footer">
+            <div class="product-price">80.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('AirPods Max','80.000 COP','Tecnología','AirPods Max. Auriculares over-ear premium de Apple con la mejor cancelación de ruido activa y audio de alta fidelidad.','https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/airpods-max-hero-select-202409?wid=532&hei=582&fmt=png-alpha','🎧',['Over-ear premium','Mejor ANC de Apple','Audio de alta fidelidad','Diseño aluminio y malla'])">
+        <div class="product-img-wrap">
+          <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/airpods-max-hero-select-202409?wid=532&hei=582&fmt=png-alpha" alt="AirPods Max" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🎧</div>
+          <div class="product-badge">Premium</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">AirPods Max</div>
+          <div class="product-desc">Over-ear premium con ANC avanzada</div>
+          <div class="product-footer">
+            <div class="product-price">80.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICIOS WEB -->
+  <div class="category-section" data-cat="web">
+    <div class="category-title">
+      <div class="category-icon">🌐</div> Servicios Web
+      <span class="category-count">2 productos</span>
+    </div>
+    <div class="products-grid">
+      <div class="product-card" onclick="openModal('Página web básica','35.000 COP','Servicios Web','Desarrollo de página web básica. Sitio web de presentación o landing page con diseño moderno, responsivo y optimizado para móviles.','https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80','🌐',['Diseño responsivo moderno','Optimizado para móviles','Hasta 3 secciones','Entrega en 24–48 horas'])">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80" alt="Página web básica" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🌐</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Página web básica</div>
+          <div class="product-desc">Landing page responsiva y moderna</div>
+          <div class="product-footer">
+            <div class="product-price">35.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" onclick="openModal('Página web profesional','120.000 COP','Servicios Web','Desarrollo de página web profesional completa. Múltiples secciones, formulario de contacto, SEO básico, animaciones y diseño premium a medida.','https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?w=800&q=80','🌐',['Diseño premium personalizado','SEO básico incluido','Formulario de contacto','Múltiples secciones y animaciones'])">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?w=800&q=80" alt="Página web profesional" onerror="this.style.display='none'">
+          <div class="product-icon-fallback">🌐</div>
+          <div class="product-badge">Destacado</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Página web profesional</div>
+          <div class="product-desc">Web completa con SEO y diseño premium</div>
+          <div class="product-footer">
+            <div class="product-price">120.000 <small>COP</small></div>
+            <button class="btn-details">Ver detalles</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div>
+      <h2>¿Listo para comprar? Hablemos</h2>
+      <p>Escríbenos directamente por WhatsApp para hacer tu pedido, resolver dudas o consultar disponibilidad. Respondemos rápido y entregamos de inmediato.</p>
+      <a href="https://wa.me/573215045684?text=Hola%2C%20vi%20tu%20catálogo%20en%20SmartStore%20y%20quiero%20hacer%20un%20pedido" target="_blank" class="btn-primary" style="display:inline-flex;text-decoration:none;margin-top:8px;">
+        💬 Ir a WhatsApp
+      </a>
+    </div>
+    <div class="contact-cards">
+      <a href="https://wa.me/573215045684" target="_blank" class="contact-card">
+        <div class="contact-card-icon">💬</div>
+        <div class="contact-card-info">
+          <strong>WhatsApp</strong>
+          <span>+57 321 504 5684 — Respuesta inmediata</span>
+        </div>
+      </a>
+      <a href="https://wa.me/573215045684?text=Hola%2C%20necesito%20soporte%20técnico" target="_blank" class="contact-card">
+        <div class="contact-card-icon">🛠️</div>
+        <div class="contact-card-info">
+          <strong>Soporte técnico</strong>
+          <span>Ayuda con tu producto 24/7</span>
+        </div>
+      </a>
+      <a href="https://wa.me/573215045684?text=Hola%2C%20quiero%20hacer%20un%20pedido%20personalizado" target="_blank" class="contact-card">
+        <div class="contact-card-icon">📦</div>
+        <div class="contact-card-info">
+          <strong>Pedidos personalizados</strong>
+          <span>Consultamos disponibilidad para ti</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 <a href="#">SmartStore</a> — Tienda digital premium · WhatsApp: <a href="https://wa.me/573215045684">+57 321 504 5684</a></p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeOnOverlay(event)">
+  <div class="modal" id="modal-box">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-img-wrap">
+      <img id="modal-img" src="" alt="">
+      <div class="product-icon-fallback" id="modal-icon"></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-cat" id="modal-cat"></div>
+      <div class="modal-name" id="modal-name"></div>
+      <div class="modal-desc" id="modal-desc"></div>
+      <div class="modal-features" id="modal-features"></div>
+      <div class="modal-footer">
+        <div class="modal-price-wrap">
+          <div class="modal-price-label">Precio</div>
+          <div class="modal-price" id="modal-price"></div>
+        </div>
+        <a id="modal-wa" href="#" target="_blank" class="btn-whatsapp">
+          💬 Pedir por WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCROLL TO TOP -->
+<button class="scroll-to-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  function openModal(name, price, cat, desc, imgSrc, icon, features) {
+    document.getElementById('modal-name').textContent = name;
+    document.getElementById('modal-price').textContent = price;
+    document.getElementById('modal-cat').textContent = cat;
+    document.getElementById('modal-desc').textContent = desc;
+    var img = document.getElementById('modal-img');
+    var iconEl = document.getElementById('modal-icon');
+    img.src = imgSrc;
+    img.style.display = 'block';
+    iconEl.textContent = icon;
+    img.onerror = function(){ this.style.display='none'; };
+    var featHtml = '';
+    for(var i=0;i<features.length;i++){ featHtml += '<div class="modal-feature">'+features[i]+'</div>'; }
+    document.getElementById('modal-features').innerHTML = featHtml;
+    var msg = encodeURIComponent('Hola, quiero comprar: ' + name + ' — ' + price);
+    document.getElementById('modal-wa').href = 'https://wa.me/573215045684?text=' + msg;
+    document.getElementById('modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function closeOnOverlay(e) {
+    if(e.target === document.getElementById('modal')) closeModal();
+  }
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeModal(); });
+
+  function filterCat(cat, btn) {
+    document.querySelectorAll('.filter-tab').forEach(function(t){ t.classList.remove('active'); });
+    btn.classList.add('active');
+    document.querySelectorAll('.category-section').forEach(function(s){
+      if(cat === 'all' || s.dataset.cat === cat) {
+        s.classList.remove('hidden');
+      } else {
+        s.classList.add('hidden');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', function(){
+    var btn = document.getElementById('scrollTop');
+    if(window.scrollY > 400) btn.classList.add('visible');
+    else btn.classList.remove('visible');
+  });
+
+  function toggleMenu() {
+    var links = document.querySelector('.nav-links');
+    var cta = document.querySelector('.nav-cta');
+    if(links) { links.style.display = links.style.display === 'flex' ? 'none' : 'flex'; }
+  }
+</script>
+</body>
+</html>
